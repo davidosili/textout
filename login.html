@@ -14,19 +14,20 @@
         }
 
         body {
-            /* Default: Mobile Style (White bg, block layout) */
             background-color: #ffffff;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            color: #232a31;
         }
 
         /* --- CONTAINER --- */
+        /* Mobile First Approach */
         .login-container {
             width: 100%;
-            max-width: 400px; /* Limits width on large tablets */
-            padding: 0 24px;
-            margin: 30px auto 0 auto; /* Top margin for mobile */
+            max-width: 420px;
+            padding: 0 32px; /* Wider padding for cleaner look */
+            margin: 10vh auto 0 auto; /* Starts 10% down the screen (Vertical Center) */
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -39,54 +40,53 @@
         /* --- DESKTOP / PC RESPONSIVE MODE --- */
         @media (min-width: 768px) {
             body {
-                /* Center everything on Desktop */
-                justify-content: center;
-                align-items: center;
-                background-color: #f0f0f5; /* Light gray background for contrast */
+                justify-content: center; /* Center card vertically */
+                align-items: center;     /* Center card horizontally */
+                background-color: #f0f0f5; /* Light gray bg for contrast */
             }
 
             .login-container {
-                /* Card look for Desktop */
-                margin: 0; /* Remove top margin */
-                padding: 40px;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+                margin: 0; /* Remove mobile top margin */
+                padding: 50px 40px;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Soft shadow */
                 background-color: #ffffff;
-                max-width: 450px; /* Slightly wider on desktop */
+                max-width: 460px;
             }
 
+            /* Adjust input spacing for desktop */
             .input-group {
-                margin-bottom: 35px; /* More breathing room */
+                margin-bottom: 35px; 
             }
         }
 
         /* --- TYPOGRAPHY --- */
         .brand-logo {
             color: #6001d2;
-            font-size: 2.2rem;
+            font-size: 3rem; /* Large, bold logo */
             font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
+            margin-bottom: 30px;
+            letter-spacing: -1.5px;
         }
 
         h1.title {
             color: #232a31;
-            font-size: 1.6rem;
+            font-size: 1.8rem; /* Larger Title */
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .subtitle {
             color: #232a31;
-            font-size: 0.95rem;
-            margin-bottom: 40px;
+            font-size: 1.1rem;
+            margin-bottom: 40px; /* Big gap before inputs start */
         }
 
         /* User email display in Step 2 */
         .user-display {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 500;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             color: #232a31;
         }
 
@@ -97,7 +97,7 @@
 
         .input-group {
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* Spacing between input and button */
             position: relative;
         }
 
@@ -105,17 +105,19 @@
             width: 100%;
             border: none;
             border-bottom: 1px solid #e0e0e0;
-            padding: 12px 0;
-            font-size: 1rem;
+            padding: 16px 0; /* Taller touch target for mobile */
+            font-size: 1.15rem; /* Text size 18px+ prevents iOS zoom */
             outline: none;
             color: #1d2a3a;
             border-radius: 0;
             background: transparent;
+            transition: border-bottom 0.2s;
         }
 
         input::placeholder {
             color: #6e7780;
             font-weight: 400;
+            font-size: 1.1rem;
         }
 
         input:focus {
@@ -126,32 +128,37 @@
         .toggle-password {
             position: absolute;
             right: 0;
-            top: 10px;
+            top: 14px; /* Adjusted for larger input height */
             cursor: pointer;
             color: #26282a;
             background: none;
             border: none;
-            padding: 0;
+            padding: 5px; /* Padding makes icon easier to tap */
             outline: none;
         }
 
         /* --- BUTTONS --- */
         .btn {
             width: 100%;
-            padding: 14px;
-            border-radius: 24px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 16px; /* Taller buttons */
+            border-radius: 32px; /* Rounder "Pill" shape */
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
             border: none;
-            margin-bottom: 20px;
-            transition: background-color 0.2s;
+            margin-bottom: 24px;
+            transition: background-color 0.2s, transform 0.1s;
             display: block; 
+        }
+
+        .btn:active {
+            transform: scale(0.98);
         }
 
         .btn-primary {
             background-color: #6001d2;
             color: white;
+            box-shadow: 0 4px 12px rgba(96, 1, 210, 0.2);
         }
 
         .btn-primary:hover {
@@ -162,6 +169,7 @@
             background-color: white;
             color: #6001d2;
             border: 1px solid #6001d2;
+            font-weight: 600;
         }
 
         .btn-secondary:hover {
@@ -176,8 +184,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 30px;
+            font-weight: 500;
         }
 
         .btn-google:hover {
@@ -185,17 +194,18 @@
         }
 
         .google-icon {
-            width: 20px;
-            height: 20px;
+            width: 24px; /* Larger icon */
+            height: 24px;
         }
 
         /* --- LINKS & EXTRAS --- */
         .forgot-link {
             color: #6001d2;
             text-decoration: none;
-            font-size: 0.95rem;
-            margin-bottom: 30px;
+            font-size: 1rem;
+            margin-bottom: 35px;
             display: inline-block;
+            font-weight: 500;
         }
 
         .forgot-link:hover {
@@ -203,9 +213,10 @@
         }
 
         .separator {
-            color: #232a31;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            color: #6e7780;
+            font-size: 1rem;
+            margin-bottom: 24px;
+            font-weight: 500;
         }
 
         /* Utility */
@@ -260,7 +271,7 @@
                     <input type="password" id="password-input" required placeholder="Password" autocomplete="current-password">
                     
                     <button type="button" class="toggle-password" onclick="togglePassword()" title="Show Password">
-                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
