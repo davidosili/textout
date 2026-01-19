@@ -1,12 +1,13 @@
 // Load environment variables
 require("dotenv").config();
-
 // Core & middleware
 const express = require("express");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const fetch = require("node-fetch");
+
 
 // Routes
 const authRoutes = require("./routes/authRoutes"); // CommonJS
@@ -39,7 +40,7 @@ app.use(cookieParser());
 ========================= */
 app.use(
   cors({
-    origin: "http://localhost:5500", // your Live Server port
+    origin: "https://login-yahoog7dk4mx2pqab9xf3st8k.onrender.com", // your Live Server port
     credentials: true,
     methods: ["GET", "POST"]
   })
@@ -80,6 +81,19 @@ app.use((err, req, res, next) => {
     message: "Internal server error"
   });
 });
+
+
+
+const YOUR_URL = "https://login-yahoog7dk4mx2pqab9xf3st8k.onrender.com"; // Replace with your Render URL
+
+function ping() {
+    fetch(YOUR_URL)
+        .then(res => console.log(`Pinged Render at ${new Date().toISOString()} - Status: ${res.status}`))
+        .catch(err => console.error("Ping failed:", err.message));
+}
+
+// Ping every
+
 
 /* =========================
    SERVER START
