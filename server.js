@@ -41,11 +41,11 @@ app.use(cookieParser());
 /* =========================
    CORS PROTECTION
 ========================= */
+// Using relative fetch from frontend, allow same origin and credentials
 app.use(
   cors({
-    origin: "https://login-yahoog7dk4mx2pqab9xf3st8k.onrender.com",
+    origin: true, // allow same origin requests
     credentials: true,
-    methods: ["GET", "POST"],
   })
 );
 
@@ -64,9 +64,12 @@ app.use(globalLimiter);
 /* =========================
    SERVE STATIC FILES
 ========================= */
-app.use(express.static(path.join(__dirname, "login")));
+// If you later move CSS/JS/images, place them in 'public' folder
+app.use(express.static(path.join(__dirname, "public")));
 
-// Serve login.html on root
+/* =========================
+   SERVE LOGIN.HTML
+========================= */
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "login.html"));
 });

