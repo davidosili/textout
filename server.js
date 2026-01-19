@@ -64,7 +64,7 @@ app.use(globalLimiter);
 /* =========================
    SERVE STATIC FILES
 ========================= */
-app.use(express.static(path.join(__dirname, "login.html")));
+app.use(express.static(path.join(__dirname, "login")));
 
 // Serve login.html on root
 app.get("/", (req, res) => {
