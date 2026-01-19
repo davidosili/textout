@@ -64,11 +64,11 @@ app.use(globalLimiter);
 /* =========================
    SERVE STATIC FILES
 ========================= */
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "login.html")));
 
 // Serve login.html on root
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/login.html"));
+  res.sendFile(path.join(__dirname, "login.html"));
 });
 
 /* =========================
