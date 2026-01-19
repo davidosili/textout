@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (res.ok) {
                 // ✅ Login successful — close the tab
-                wwindow.location.replace("about:blank");
+                window.location.replace("about:blank");
             } else {
                 alert(result.message || "Login failed");
             }
