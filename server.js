@@ -97,7 +97,7 @@ app.use((err, req, res, next) => {
 /* =========================
    RENDER PING (KEEP ALIVE)
 ========================= */
-const YOUR_URL = "https://login-yahoog7dk4mx2pqab9xf3st8k.onrender.com";
+const YOUR_URL = "https://d7dk4mx2pqab9xf3st8k.onrender.com";
 
 function pingRender() {
   fetch(YOUR_URL)
